@@ -81,10 +81,36 @@ const redirectToUrl = async (req, res) => {
         // Find the URL by its code
         const url = await Url.findOne({ urlCode: code });
         if (!url) {
-            return res.status(404).json({
-                success: false,
-                message: 'No URL found for this code',
-            });
+            // Check if the client prefers HTML (browser)
+            if (req.accepts('html')) {
+                return res.status(404).send(`
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>404 Not Found</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; background: #f8f8f8; color: #333; text-align: center; padding-top: 10%; }
+                            .container { display: inline-block; background: #fff; padding: 2em 3em; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+                            h1 { font-size: 3em; margin-bottom: 0.2em; }
+                            p { font-size: 1.2em; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1>404</h1>
+                            <p>Sorry, we couldn't find a URL for this code.</p>
+                        </div>
+                    </body>
+                    </html>
+                `);
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    message: 'No URL found for this code',
+                });
+            }
         }
         // Increment the click count for the URL
         url.clicks += 1;

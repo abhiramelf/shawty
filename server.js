@@ -4,6 +4,7 @@ import 'dotenv/config'; // Load environment variables from .env file
 import connectDB from "./backend/config/db.js" // MongoDB connection logic
 import urlRoutes from "./backend/routes/urls.js"; // Import URL routes
 import indexRoutes from "./backend/routes/index.js"; // Import index routes
+import authRoutes from "./backend/routes/auth.js"; // Import authentication routes
 
 // Connect to MongoDB
 connectDB();
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", urlRoutes); // Use URL routes under /api path
 app.use("/", indexRoutes); // Use index routes for short URL code handling
+app.use("/api/auth", authRoutes); // Use authentication routes under /api/auth path
 
 // Start the server on the specified port
 app.listen(process.env.PORT || 3000, () => {

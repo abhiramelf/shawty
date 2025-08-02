@@ -1,44 +1,31 @@
 {
-  // Project name
   "name": "shawty",
-  // Version of the project
   "version": "1.0.0",
-  // Short description
   "description": "Shawty is a URL shortening service",
-  // Homepage URL
   "homepage": "https://github.com/abhiramelf/shawty#readme",
-  // Bug tracker URL
   "bugs": {
     "url": "https://github.com/abhiramelf/shawty/issues"
   },
-  // Repository information
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abhiramelf/shawty.git"
   },
-  // License type
   "license": "ISC",
-  // Author name (optional)
   "author": "",
-  // Use ECMAScript modules
   "type": "module",
-  // Main entry point (not used, see server.js)
   "main": "index.js",
-  // NPM scripts for development and testing
   "scripts": {
-    // Test script placeholder
     "test": "echo \"Error: no test specified\" && exit 1",
-    // Start server in development mode with nodemon
     "dev": "nodemon server.js"
   },
-  // Runtime dependencies
   "dependencies": {
-    "dotenv": "^17.2.1", // Loads environment variables
-    "express": "^5.1.0", // Web framework
-    "mongoose": "^8.16.5" // MongoDB ODM
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.5",
+    "nanoid": "^5.1.5",
+    "valid-url": "^1.0.9"
   },
-  // Development dependencies
   "devDependencies": {
-    "nodemon": "^3.1.10" // Auto-restarts server on changes
+    "nodemon": "^3.1.10"
   }
 }

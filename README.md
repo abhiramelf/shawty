@@ -66,7 +66,6 @@ shawty/
 │   ├── controllers/      # (Controllers for business logic)
 │   ├── middleware/       # (Custom middleware)
 │   ├── models/           # (Mongoose models)
-```
 ├── server.js             # Main Express server entry point
 ├── package.json          # Project metadata and scripts
 └── .env                  # Environment variables (not committed)

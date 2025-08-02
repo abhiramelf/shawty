@@ -68,4 +68,37 @@ const shortenUrl = async (req, res) => {
     }
 }
 
-export { shortenUrl };
+/**
+ * Redirect to the original URL
+ * @desc This function retrieves the original URL from the database using the short code and redirects the user to that URL.
+ * @route GET /:code
+ * @access Public
+ */
+const redirectToUrl = async (req, res) => {
+    const { code } = req.params;
+
+    try {
+        // Find the URL by its code
+        const url = await Url.findOne({ urlCode: code });
+        if (!url) {
+            return res.status(404).json({
+                success: false,
+                message: 'No URL found for this code',
+            });
+        }
+        // Increment the click count for the URL
+        url.clicks += 1;
+        await url.save();
+
+        // Redirect to the original URL
+        return res.redirect(301, url.longUrl);
+    } catch (error) {
+        console.error('Error redirecting URL:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error',
+        });
+    }
+};
+
+export { shortenUrl, redirectToUrl };

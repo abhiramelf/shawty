@@ -3,11 +3,6 @@ import mongoose from "mongoose";
 
 // Define the User schema
 const userSchema = new mongoose.Schema({
-    userId: {
-        type: String, // Unique user identifier
-        required: true,
-        unique: true,
-    },
     name: {
         type: String, // User's name
         required: true,

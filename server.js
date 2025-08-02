@@ -3,6 +3,7 @@ import express from "express"; // Express framework for building the server
 import 'dotenv/config'; // Load environment variables from .env file
 import connectDB from "./backend/config/db.js" // MongoDB connection logic
 import urlRoutes from "./backend/routes/urls.js"; // Import URL routes
+import indexRoutes from "./backend/routes/index.js"; // Import index routes
 
 // Connect to MongoDB
 connectDB();
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api", urlRoutes); // Use URL routes under /api path
+app.use("/", indexRoutes); // Use index routes for short URL code handling
 
 // Start the server on the specified port
 app.listen(process.env.PORT || 3000, () => {

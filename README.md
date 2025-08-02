@@ -1,5 +1,10 @@
 # Shawty
 
+<!--
+README for Shawty: URL Shortener
+This file explains the project, setup, and structure for new users and contributors.
+-->
+
 Shawty is a simple URL shortening service built with Node.js, Express, and MongoDB. It allows you to shorten long URLs and redirect users to the original links using the generated short codes.
 
 ## Features
@@ -11,11 +16,13 @@ Shawty is a simple URL shortening service built with Node.js, Express, and Mongo
 
 ## Getting Started
 
+<!-- Prerequisites for running the project -->
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v16 or higher recommended)
 - [MongoDB](https://www.mongodb.com/) instance (local or cloud)
 
+<!-- Installation steps for developers -->
 ### Installation
 
 1. Clone the repository:
@@ -50,6 +57,7 @@ The app will be running at [http://localhost:3000](http://localhost:3000) (or th
 
 ## Project Structure [WIP]
 
+<!-- Directory structure and file purpose -->
 ```md
 shawty/
 ├── backend/
@@ -58,7 +66,7 @@ shawty/
 │   ├── controllers/      # (Controllers for business logic)
 │   ├── middleware/       # (Custom middleware)
 │   ├── models/           # (Mongoose models)
-│   └── routes/           # (Express route handlers)
+```
 ├── server.js             # Main Express server entry point
 ├── package.json          # Project metadata and scripts
 └── .env                  # Environment variables (not committed)

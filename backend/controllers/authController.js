@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js"; // Import User model
 
 /**
@@ -67,12 +68,13 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid credentials' });
         }
 
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: '1h', // Token expiration time
+        });
+
         // Respond with success message
-        res.status(200).json({ success: true, message: 'User logged in successfully', data: { 
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-        } });
+        res.status(200).json({ success: true, message: 'User logged in successfully', token: token });
     } catch (error) {
         console.error('Error logging in user:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });

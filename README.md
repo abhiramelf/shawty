@@ -70,11 +70,14 @@ The React frontend will live in the `frontend` folder. Instructions for setting 
   - **Body:** `{ "email": "john@example.com", "password": "yourpassword" }`
   - **Response:** `200 OK` with `{ token, user }`
 
-### Shorten a URL
+### Shorten a URL (Protected)
 
-- **POST** `/api/shorten`
+- **POST** `/api/shorten` — Create a new short URL (requires authentication)
+  - **Headers:** `Authorization: Bearer <token>` (required; request will be rejected if missing or invalid)
   - **Body:** `{ "longUrl": "https://example.com" }`
   - **Response:** `201 Created` with `{ data: { shortUrl, longUrl, urlCode, ... } }`
+  - **Response:** `401 Unauthorized` if no token is provided
+  - **Response:** `400 Bad Request` if the token is invalid or the input is invalid
 
 ### Redirect to Original URL
 
@@ -85,8 +88,14 @@ The React frontend will live in the `frontend` folder. Instructions for setting 
 ### User Links (Protected)
 
 - **GET** `/api/links/my-links` — Get all links created by the authenticated user
-  - **Headers:** `Authorization: Bearer <token>`
+  - **Headers:** `Authorization: Bearer <token>` (required; request will be rejected if missing or invalid)
   - **Response:** `200 OK` with `{ data: [ ...links ] }`
+  - **Response:** `401 Unauthorized` if no token is provided
+  - **Response:** `400 Bad Request` if the token is invalid
+
+### API Documentation (Swagger UI)
+
+- **GET** `/api/docs` — Interactive Swagger UI for all backend APIs. Open [http://localhost:3000/api/docs](http://localhost:3000/api/docs) in your browser after starting the backend server.
 
 ## Project Structure
 

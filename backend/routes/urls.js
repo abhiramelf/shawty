@@ -1,5 +1,6 @@
 import express from 'express';
 import { shortenUrl } from '../controllers/urlController.js';
+import { authMiddleware } from '../middleware/auth.js'; // Import authentication middleware
 
 const router = express.Router();
 
@@ -8,6 +9,6 @@ const router = express.Router();
  * @desc    Create a new short URL
  * @access  Public
  */
-router.post('/shorten', shortenUrl);
+router.post('/shorten', authMiddleware, shortenUrl);
 
 export default router;

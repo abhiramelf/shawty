@@ -25,6 +25,11 @@ const urlSchema = new mongoose.Schema({
         required: true,
         default: 0,
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: false, // Optional reference to the user who created the URL
+    },
 });
 
 // Export the Url model

@@ -51,6 +51,10 @@ const shortenUrl = async (req, res) => {
             shortUrl,
         });
 
+        if (req.user) {
+            newUrl.user = req.user.id; // Attach the user ID if available
+        }
+
         // Save the new URL to the database
         await newUrl.save();
         
@@ -117,7 +121,7 @@ const redirectToUrl = async (req, res) => {
         await url.save();
 
         // Redirect to the original URL
-        return res.redirect(301, url.longUrl);
+        return res.redirect(302, url.longUrl);
     } catch (error) {
         console.error('Error redirecting URL:', error);
         return res.status(500).json({

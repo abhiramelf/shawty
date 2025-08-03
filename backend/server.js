@@ -1,11 +1,11 @@
 // Import required modules
 import express from "express"; // Express framework for building the server
 import 'dotenv/config'; // Load environment variables from .env file
-import connectDB from "./backend/config/db.js" // MongoDB connection logic
-import urlRoutes from "./backend/routes/urls.js"; // Import URL routes
-import indexRoutes from "./backend/routes/index.js"; // Import index routes
-import authRoutes from "./backend/routes/auth.js"; // Import authentication routes
-import linkRoutes from "./backend/routes/links.js"; // Import link routes
+import connectDB from "./config/db.js" // MongoDB connection logic
+import urlRoutes from "./routes/urls.js"; // Import URL routes
+import indexRoutes from "./routes/index.js"; // Import index routes
+import authRoutes from "./routes/auth.js"; // Import authentication routes
+import linkRoutes from "./routes/links.js"; // Import link routes
 
 // Connect to MongoDB
 connectDB();

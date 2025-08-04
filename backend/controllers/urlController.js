@@ -7,7 +7,7 @@ import Url from '../models/Url.js';
  *         logic of validating the long URL, checking for its existence, 
  *         generating a short code, and saving it to the database.
  * @route  POST /api/shorten
- * @access Private
+ * @access Public
  */
 const shortenUrl = async (req, res) => {
 

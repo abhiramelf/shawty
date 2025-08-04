@@ -4,7 +4,8 @@ const authMiddleware = (req, res, next) => {
     const token = req.header('Authorization')?.split(' ')[1]; // Extract token from Authorization header
 
     if (!token) {
-        return res.status(401).json({ success: false, message: 'No token provided. Please log in.' });
+        //return res.status(401).json({ success: false, message: 'No token provided. Please log in.' });
+        return next();
     }
 
     try {

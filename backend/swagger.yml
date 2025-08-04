@@ -88,8 +88,6 @@ paths:
     post:
       tags: [URL]
       summary: Shorten a long URL
-      security:
-        - bearerAuth: []
       requestBody:
         required: true
         content:

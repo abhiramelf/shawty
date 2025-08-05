@@ -16,4 +16,5 @@ const createShortUrl = async (longUrl) => {
     }
 };
 
-export default createShortUrl;
+
+export { createShortUrl };

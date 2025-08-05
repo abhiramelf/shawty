@@ -12,9 +12,9 @@ const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     // Validate typeof user input
-    if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
-        return res.status(400).json({ success: false, message: 'Invalid input type' });
-    }
+    // if (typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+    //     return res.status(400).json({ success: false, message: 'Invalid input type' });
+    // }
 
     // Validate user input
     if (!name || !email || !password) {
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await User.findOne({ userId: email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json({ success: false, message: 'User already exists' });
     }

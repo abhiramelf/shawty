@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import createShortUrl from "../services/apiService";
+import { createShortUrl } from "../services/apiService";
 
 const HomePage = () => {
     // State to hold the long URL input

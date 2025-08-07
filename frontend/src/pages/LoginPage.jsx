@@ -1,63 +1,100 @@
-import React, { useState } from "react";
-import { loginUser } from "../services/authService";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-function LoginPage() {
+// Import the login service function
+import { loginUser } from '../services/authService';
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
+const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!email || !password) {
-            alert("Please enter both email and password.");
-            return;
-        }
+  // Add state for error handling
+  const [error, setError] = useState('');
 
-        try {
-            setError('');
-            const userData = { email, password };
-            const response = await loginUser(userData);
-            console.log("Login successful:", response);
-        } catch (error) {
-            const errorMessage = error.response?.data?.error || 'An unexpected error occurred.';
-            setError(errorMessage);
-            console.error('Error from API:', error);
-        }
-    };
+  const navigate = useNavigate(); // Hook to programmatically navigate
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Refactor handleSubmit for login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!formData.email || !formData.password) {
+      setError('Both email and password are required.');
+      return;
+    }
+
+    try {
+      // Call the loginUser service function
+      const response = await loginUser(formData);
+
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        console.log('Token saved in localStorage successfully');
+        navigate('/dashboard'); // Redirect to the dashboard or another page
+      }
+      else {
+        setError('Login failed. Please check your credentials.');
+      }
+
+    } catch (err) {
+      // Handle login errors, e.g., "Invalid credentials"
+      const errorMessage = err.error || 'Login failed. Please check your credentials.';
+      setError(errorMessage);
+      console.error('Login error:', err);
+    }
+  };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="auth-container">
+      <h2>Welcome Back!</h2>
+      <p>Log in to access your dashboard.</p>
+
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email-input">Email:</label>
+        {/* Input fields remain the same */}
+        <div className="form-group">
+          <label htmlFor="email">Email Address</label>
           <input
-            id="email-input"
+            id="email"
             type="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label htmlFor="password-input">Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
-            id="password-input"
+            id="password"
             type="password"
             placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="btn">Login</button>
       </form>
 
-      {error && <p className="error">{error}</p>}
+      {/* Conditionally render the error message */}
+      {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
+
+      <p className="auth-switch">
+        Don't have an account? <Link to="/register">Register now</Link>
+      </p>
     </div>
   );
-}
+};
 
 export default LoginPage;

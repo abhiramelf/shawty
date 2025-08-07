@@ -1,74 +1,108 @@
-import React, {useState} from "react";
-import { registerUser } from "../services/authService"; // Adjust the import path as necessary
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { registerUser } from '../services/authService';
 
-function RegisterPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+const RegisterPage = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(''); // Optional: for success messages
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      alert("Please enter all fields.");
+    // Clear previous messages
+    setError('');
+    setSuccess('');
+
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.password) {
+      setError('All fields are required.');
       return;
     }
 
+    // Use a try/catch block to handle the asynchronous API call
     try {
-      setError('');
-      const userData = { name, email, password };
-      const response = await registerUser(userData);
-      console.log("Registration successful:", response);
-    } catch (error) {
-      const errorMessage = error.response?.data?.error || 'An unexpected error occurred.';
+      // 'await' pauses the function until the promise from registerUser is resolved
+      const response = await registerUser(formData);
+
+      console.log('Registration successful:', response);
+      setSuccess('Registration successful! Please log in.');
+      // Optionally, clear the form
+      setFormData({ name: '', email: '', password: '' });
+
+    } catch (err) {
+      // If the service throws an error, it's caught here
+      const errorMessage = err.error || 'Registration failed. Please try again.';
       setError(errorMessage);
-      console.error('Error from API:', error);
+      console.error('Registration error:', err);
     }
   };
- 
+
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="auth-container">
+      <h2>Create Your Account</h2>
+      <p>Join us to start creating your own short links!</p>
+
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
+        {/* Input fields remain the same */}
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
           <input
-            type="text"
             id="name"
+            type="text"
+            placeholder="Enter your name"
             name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formData.name}
+            onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
+        <div className="form-group">
+          <label htmlFor="email">Email Address</label>
           <input
-            type="email"
             id="email"
+            type="email"
+            placeholder="Enter your email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={handleChange}
             required
           />
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
-            type="password"
             id="password"
+            type="password"
+            placeholder="Choose a strong password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" className="btn">Register</button>
       </form>
 
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
+      {success && <p className="success-message" style={{ color: 'green' }}>{success}</p>}
+
+      <p className="auth-switch">
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
-}
+};
 
 export default RegisterPage;
